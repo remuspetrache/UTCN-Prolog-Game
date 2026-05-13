@@ -1,20 +1,4 @@
 % ============================================================================
-% clues.pl — MODEL FILE, DO NOT EDIT
-%
-% Read this file BEFORE starting lab03_board.pl and lab04_08_solver.pl.
-%
-% This file demonstrates:
-%   L03 list patterns — status_count_in/3, select_cells/3, pick_status_cells/3
-%   L04 cut usage     — deterministic dispatch using :- discontiguous + cut
-%
-% You are NOT expected to modify or re-implement this file. It is provided
-% in full as a working reference implementation that your board, graph, trees,
-% and solver predicates will be called by.
-%
-% Romanian strings (clue descriptions shown to players) are preserved as-is.
-% ============================================================================
-
-% ============================================================================
 % clues.pl
 % All clue-kind terms, their truth-checking against a World assignment,
 % and their Romanian textual description.
@@ -93,6 +77,10 @@ role_ro_n(_, Role, Word) :-
 
 parity_ro(par,   "par").
 parity_ro(impar, "impar").
+
+% verb_a_fi(+N, -Verb) — "este" for singular, "sunt" for plural.
+verb_a_fi(1, "este") :- !.
+verb_a_fi(_, "sunt").
 
 % Character info accessed via a user-defined character/4 predicate in the
 % loaded puzzle. For robustness, we call it through ":- discontiguous" via
@@ -401,20 +389,24 @@ describe_clue(flavor(Text), Text) :- !.
 
 describe_clue(count_row(R, Status, N), Text) :- !,
     status_ro_n(N, Status, StatStr),
-    format(string(Text), "Pe rândul ~w sunt exact ~w ~w.", [R, N, StatStr]).
+    verb_a_fi(N, V),
+    format(string(Text), "Pe rândul ~w ~w exact ~w ~w.", [R, V, N, StatStr]).
 
 describe_clue(count_col(C, Status, N), Text) :- !,
     status_ro_n(N, Status, StatStr),
     upcase_atom(C, Cu),
-    format(string(Text), "Pe coloana ~w sunt exact ~w ~w.", [Cu, N, StatStr]).
+    verb_a_fi(N, V),
+    format(string(Text), "Pe coloana ~w ~w exact ~w ~w.", [Cu, V, N, StatStr]).
 
 describe_clue(count_edge(Status, N), Text) :- !,
     status_ro_n(N, Status, StatStr),
-    format(string(Text), "Pe margini sunt exact ~w ~w.", [N, StatStr]).
+    verb_a_fi(N, V),
+    format(string(Text), "Pe margini ~w exact ~w ~w.", [V, N, StatStr]).
 
 describe_clue(count_corner(Status, N), Text) :- !,
     status_ro_n(N, Status, StatStr),
-    format(string(Text), "În colțuri sunt exact ~w ~w.", [N, StatStr]).
+    verb_a_fi(N, V),
+    format(string(Text), "În colțuri ~w exact ~w ~w.", [V, N, StatStr]).
 
 describe_clue(parity_row(R, Status, Par), Text) :- !,
     status_ro_pl(Status, StatStr),

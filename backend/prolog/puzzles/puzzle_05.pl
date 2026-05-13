@@ -14,17 +14,17 @@
 %  5:  I    I    R    I
 %
 % Deduction chain:
-%   b4=I  -> count_row(4,R,3)       -> a4=R, c4=R, d4=R
-%   a4=R  -> direct_neighbor(sus,I) -> a3=I
-%   c4=R  -> count_corner(I,4)      -> a1=I, d1=I, a5=I, d5=I
-%   d4=R  -> count_col(d,I,4)       -> d2=I, d3=I   (uses d1,d5 from above)
-%   a3=I  -> count_col(a,I,3)       -> a2=R          (uses a1,a5 from above)
-%   a1=I  -> count_row(1,I,2)       -> b1=R, c1=R   (uses d1 from above)
-%   d1=I  -> group_count(312,I,2)   -> c2=R          (uses d2, c1 from above)
-%   d3=I  -> neighbor_count(d3,R,3) -> c3=I [DELAYED: fires after c2=R known]
-%   a5=I  -> multi(row5+direct)     -> b5=I, c5=R
-%   d5=I  -> count_row(3,R,1)        -> b3=R          (uses a3, c3, d3 from above)
-%   b3=R  -> neighbor_count(b3,I,4) -> b2=I          (last cell)
+%   b4=I  -> count_row(4,R,3)           -> a4=R, c4=R, d4=R
+%   a4=R  -> direct_neighbor(sus,I)     -> a3=I
+%   c4=R  -> count_corner(I,4)          -> a1=I, d1=I, a5=I, d5=I
+%   d4=R  -> count_col(d,I,4)           -> d2=I, d3=I   (uses d1,d5 from above)
+%   a3=I  -> count_col(a,I,3)           -> a2=R          (uses a1,a5 from above)
+%   a1=I  -> count_row(1,I,2)           -> b1=R, c1=R   (uses d1 from above)
+%   d2=I  -> role_count(asistent,I,3)   -> c3=I          (uses d3=I,b4=I known)
+%   d3=I  -> neighbor_count(d3,R,3)     -> c2=R          (uses c3=I,c4=R,d4=R)
+%   a5=I  -> multi(row5+direct)         -> b5=I, c5=R
+%   d5=I  -> count_row(3,R,1)           -> b3=R          (uses a3,c3,d3 from above)
+%   b3=R  -> neighbor_count(b3,I,4)     -> b2=I          (last cell)
 % ============================================================================
 
 puzzle_title("Sesiunea de toamnă").
@@ -109,16 +109,13 @@ clue_of(a3, count_col(a, integralist, 3)).
 % -> combined with d1=I (corner), forces b1=R and c1=R.
 clue_of(a1, count_row(1, integralist, 2)).
 
-% Luca (d1): "Grupa 312 are exact 2 integralisti."
-% -> group 312 = {c1,d1,c2,d2}; d1=I and d2=I already account for 2I,
-%    so c2=R is forced.
-clue_of(d1, group_count(312, integralist, 2)).
+% Luca (d1): flavor only — no longer needed in the deduction chain.
+clue_of(d1, flavor("Nu am dormit de trei zile.")).
 
 % Miron (d3): "Am exact 3 vecini restantieri."
 % -> d3's neighbors are c2, d2, c3, c4, d4.
-%    c4=R and d4=R are known early; once c2=R is confirmed (via d1's clue)
-%    the three rest neighbors are accounted for, forcing c3=I.
-%    [DELAYED clue — only fires after c2 is confirmed]
+%    c3=I is already known (via d2's clue), c4=R and d4=R are known,
+%    d2=I — so the three R neighbors are c2, c4, d4, forcing c2=R.
 clue_of(d3, neighbor_count(d3, restantier, 3)).
 
 % Florica (a5): "Rândul 5 are 3 integralisti și vecinul din dreapta mea e integralist."
@@ -147,7 +144,7 @@ clue_of(c1, flavor("Teza de laborator mi-a dat de gândit.")).
 clue_of(a2, flavor("Mă duc la profesori mâine... poate.")).
 clue_of(b2, flavor("Am corectat 60 de teze, nu mai pot.")).
 clue_of(c2, flavor("Laboratorul e ocupat până la noapte.")).
-clue_of(d2, flavor("Sper că măcar jumătate au luat.")).
+clue_of(d2, role_count(asistent, integralist, 3)).
 clue_of(c3, flavor("Nici eu nu știam că e sesiune.")).
 clue_of(b5, flavor("A, s-a terminat sesiunea? Nu știam.")).
 clue_of(c5, flavor("Măcar am participat la cursuri.")).
