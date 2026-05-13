@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+frontend/vite.config.d.ts
+frontend/vite.config.js
+
+# SWI-Prolog compiled files
+*.qlf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+.idea/
+.vscode/

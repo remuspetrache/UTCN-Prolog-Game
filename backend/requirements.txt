@@ -1,0 +1,5 @@
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pyswip>=0.3.2
+pytest>=7.4
+httpx>=0.27

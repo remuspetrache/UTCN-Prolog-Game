@@ -1,0 +1,9 @@
+# docker compose -f demo/docker-compose.yml up
+# Then open http://localhost:5173 in your browser.
+
+services:
+  clues-demo:
+    image: ghcr.io/remuspetrache/utcn-clues-demo:latest
+    ports:
+      - "5173:8002"   # Game UI — open http://localhost:5173
+    restart: unless-stopped
