@@ -105,7 +105,7 @@ select {
   border: 2px solid #eee;
   cursor: pointer;
   text-align: center;
-  transition: transform 0.05s, box-shadow 0.12s, border-color 0.1s;
+  transition: transform 0.05s, box-shadow 0.12s, border-color 0.1s, opacity 0.2s;
   min-height: 116px;
   display: flex;
   flex-direction: column;
@@ -113,6 +113,7 @@ select {
   gap: 4px;
   user-select: none;
 }
+.character.dimmed { opacity: 0.35; }
 .character:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.06); border-color: #d0d0d0; }
 .character.known-clue { background: #fffbea; border-color: #fbd95b; }
 .character.known-correct { background: #eafbe7; border-color: #5fbf4c; }

@@ -26,6 +26,17 @@ docker compose -f demo/docker-compose.yml down
 
 ---
 
+## Game controls
+
+| Interaction | Effect |
+|---|---|
+| **Click** an unmarked cell | Open the integralist / restantier choice dialog |
+| **Click** a correctly-marked cell | Dim the cell (fades it out so its clue is less distracting); click again to restore |
+| **Long-press** (hold ~0.5 s) any cell | Open a color palette to assign an outline color — useful for visually connecting related clues |
+| **Right-click** any cell | Cycle a colored corner tag (green → yellow → red → none) |
+
+---
+
 ## What you need to implement
 
 All student work lives in `backend/prolog/`. The six files below map directly to laboratory sessions.

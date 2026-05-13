@@ -13,9 +13,11 @@ interface Props {
   highlightedByHint: boolean;
   cornerColor: CornerColor;
   paletteColor: string | null;
+  dimmed: boolean;
   onOpenChoice: () => void;
   onCycleCorner: () => void;
   onOpenPalette: (x: number, y: number) => void;
+  onToggleDim: () => void;
 }
 
 export function CharacterCard(props: Props) {
@@ -29,9 +31,11 @@ export function CharacterCard(props: Props) {
     highlightedByHint,
     cornerColor,
     paletteColor,
+    dimmed,
     onOpenChoice,
     onCycleCorner,
     onOpenPalette,
+    onToggleDim,
   } = props;
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -62,6 +66,7 @@ export function CharacterCard(props: Props) {
   if (hintRevealed) classes.push("hint-revealed");
   if (hasMistake && !knownStatus) classes.push("mistake");
   if (highlightedByHint) classes.push("highlighted");
+  if (dimmed) classes.push("dimmed");
 
   return (
     <div
@@ -72,6 +77,7 @@ export function CharacterCard(props: Props) {
         if (pressed && pressTimer.current === undefined) return;
         cancelLongPress();
         if (!knownStatus) onOpenChoice();
+        else onToggleDim();
       }}
       onContextMenu={(e) => {
         e.preventDefault();

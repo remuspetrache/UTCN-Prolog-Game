@@ -24,6 +24,7 @@ export default function App() {
   const [paletteFor, setPaletteFor] = useState<{ cell: string; x: number; y: number } | null>(null);
   const [highlightedClues, setHighlightedClues] = useState<Set<string>>(new Set());
   const [hintedCells, setHintedCells] = useState<Set<string>>(new Set());
+  const [dimmedCells, setDimmedCells] = useState<Set<string>>(new Set());
   const [endOpen, setEndOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,6 +60,7 @@ export default function App() {
     setPaletteColors({});
     setHighlightedClues(new Set());
     setHintedCells(new Set());
+    setDimmedCells(new Set());
     setResetKey((k) => k + 1);
     setElapsed(0);
     setTimerRunning(false);
@@ -90,6 +92,15 @@ export default function App() {
     });
   };
 
+  const toggleDim = (cell: string) => {
+    setDimmedCells((prev) => {
+      const next = new Set(prev);
+      if (next.has(cell)) next.delete(cell);
+      else next.add(cell);
+      return next;
+    });
+  };
+
   const onPickColor = (cell: string, color: string | null) => {
     setPaletteColors((prev) => ({ ...prev, [cell]: color }));
     setPaletteFor(null);
@@ -117,6 +128,7 @@ export default function App() {
     setPaletteColors({});
     setHighlightedClues(new Set());
     setHintedCells(new Set());
+    setDimmedCells(new Set());
     setResetKey((k) => k + 1);
     setElapsed(0);
     setTimerRunning(false);
@@ -202,9 +214,11 @@ export default function App() {
               highlightedByHint={highlightedClues.has(cell)}
               cornerColor={corners[cell] ?? null}
               paletteColor={paletteColors[cell] ?? null}
+              dimmed={dimmedCells.has(cell)}
               onOpenChoice={() => setOpenChoice(ch)}
               onCycleCorner={() => cycleCorner(cell)}
               onOpenPalette={(x, y) => setPaletteFor({ cell, x, y })}
+              onToggleDim={() => toggleDim(cell)}
             />
           );
         })}
